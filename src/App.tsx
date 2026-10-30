@@ -380,7 +380,7 @@ export default function App() {
         <Brand onClick={() => navigate('home')} />
         <div className="chapter">
           <span className="location-dot" />
-          GURUGRAM CHAPTER
+          {state.preferences.city.toUpperCase()} CHAPTER
           <ChevronDown size={13} aria-hidden="true" />
         </div>
         <span className="nav-heading">A PLACE FOR YOU</span>
@@ -445,7 +445,7 @@ export default function App() {
           </span>
           <button className="pilot-badge" onClick={() => navigate('how')}>
             <span className="location-dot" />
-            Gurugram pilot
+            {state.preferences.city} chapter
             <ArrowUpRight size={13} />
           </button>
         </div>
@@ -652,7 +652,9 @@ export default function App() {
                       <p>{invitation.restaurant.description}</p>
                       <div className="invitation-meta">
                         <IconLabel icon={CalendarDays}>{formatDate(invitation.date)} IST</IconLabel>
-                        <IconLabel icon={MapPin}>{invitation.restaurant.area}, Gurugram</IconLabel>
+                        <IconLabel icon={MapPin}>
+                          {invitation.restaurant.area}, {invitation.restaurant.city}
+                        </IconLabel>
                         <IconLabel icon={Leaf}>
                           {invitation.restaurant.cuisine} · {state.preferences.diet}
                         </IconLabel>
@@ -929,7 +931,7 @@ export default function App() {
                       {state.profile.name[0].toUpperCase()}
                     </span>
                     <h2>{state.profile.name}</h2>
-                    <IconLabel icon={MapPin}>Gurugram</IconLabel>
+                    <IconLabel icon={MapPin}>{state.preferences.city}</IconLabel>
                     <div className="profile-divider" />
                     <span className="eyebrow">A FEW THINGS I LOVE</span>
                     <div className="chips centered">
@@ -1003,7 +1005,7 @@ export default function App() {
                 <div>
                   <Pill tone="sage">
                     <MapPin size={13} />
-                    Gurugram, to begin with
+                    Nine city chapters across India
                   </Pill>
                   <h2>
                     Not more connections.
@@ -1015,8 +1017,9 @@ export default function App() {
                     share a meal with. Table for One makes a little room for something different.
                   </p>
                   <p>
-                    We’re starting small: shared meals for young professionals around Cyber Hub and
-                    Golf Course Road. Three to five people. A reason to put your phone away.
+                    Choose a chapter in Delhi, Gurugram, Mumbai, Bengaluru, Hyderabad, Chennai,
+                    Kolkata, Pune, or Ahmedabad, then pick neighbourhoods that work for you. Three
+                    to five people. A reason to put your phone away.
                   </p>
                 </div>
                 <div className="about-doodle">

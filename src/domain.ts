@@ -8,7 +8,6 @@ export const INTERESTS = [
   'Film',
   'Tech & ideas',
 ] as const
-export const AREAS = ['Cyber Hub', 'Golf Course Road'] as const
 export const WINDOWS = [
   'Wednesday dinner',
   'Thursday dinner',
@@ -21,14 +20,108 @@ export const DIETS = ['Vegetarian', 'Vegan', 'No preference'] as const
 export const STYLES = ['More of a listener', 'A little of both', 'Usually the storyteller'] as const
 export const GENDERS = ['Woman', 'Man', 'Non-binary', 'Prefer not to say'] as const
 export type Interest = (typeof INTERESTS)[number]
-export type Area = (typeof AREAS)[number]
 export type Window = (typeof WINDOWS)[number]
 export type Cuisine = (typeof CUISINES)[number]
 export type Diet = (typeof DIETS)[number]
 export type Style = (typeof STYLES)[number]
 export type Gender = (typeof GENDERS)[number]
+type Chapter = {
+  areas: readonly [string, string]
+  restaurants: Record<Cuisine, { name: string; areaIndex: 0 | 1 }>
+}
+const CITY_CHAPTERS = {
+  Delhi: {
+    areas: ['Connaught Place', 'Hauz Khas'],
+    restaurants: {
+      Mediterranean: { name: 'Juniper Room', areaIndex: 0 },
+      Indian: { name: 'Dilli Saanjh', areaIndex: 1 },
+      Asian: { name: 'Kumo Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Delhi', areaIndex: 1 },
+    },
+  },
+  Gurugram: {
+    areas: ['Cyber Hub', 'Golf Course Road'],
+    restaurants: {
+      Mediterranean: { name: 'The Olive Room', areaIndex: 0 },
+      Indian: { name: 'Saanjh Social Kitchen', areaIndex: 1 },
+      Asian: { name: 'Miso & More', areaIndex: 1 },
+      Italian: { name: 'Little Basil', areaIndex: 0 },
+    },
+  },
+  Mumbai: {
+    areas: ['Bandra West', 'Lower Parel'],
+    restaurants: {
+      Mediterranean: { name: 'Sea & Olive', areaIndex: 0 },
+      Indian: { name: 'Bombay Saanjh', areaIndex: 1 },
+      Asian: { name: 'Monsoon Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Bombay', areaIndex: 1 },
+    },
+  },
+  Bengaluru: {
+    areas: ['Indiranagar', 'Koramangala'],
+    restaurants: {
+      Mediterranean: { name: 'Garden Olive', areaIndex: 0 },
+      Indian: { name: 'Oota Saanjh', areaIndex: 1 },
+      Asian: { name: 'Bamboo Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Bengaluru', areaIndex: 1 },
+    },
+  },
+  Hyderabad: {
+    areas: ['Jubilee Hills', 'HITEC City'],
+    restaurants: {
+      Mediterranean: { name: 'Deccan Olive', areaIndex: 0 },
+      Indian: { name: 'Saanjh Deccan Kitchen', areaIndex: 1 },
+      Asian: { name: 'Nori Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Hyderabad', areaIndex: 1 },
+    },
+  },
+  Chennai: {
+    areas: ['Nungambakkam', 'Adyar'],
+    restaurants: {
+      Mediterranean: { name: 'Coast & Olive', areaIndex: 0 },
+      Indian: { name: 'Madras Saanjh', areaIndex: 1 },
+      Asian: { name: 'Lotus Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Chennai', areaIndex: 1 },
+    },
+  },
+  Kolkata: {
+    areas: ['Park Street', 'Salt Lake'],
+    restaurants: {
+      Mediterranean: { name: 'Olive Adda', areaIndex: 0 },
+      Indian: { name: 'Saanjh Bengal Kitchen', areaIndex: 1 },
+      Asian: { name: 'Lantern Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Kolkata', areaIndex: 1 },
+    },
+  },
+  Pune: {
+    areas: ['Koregaon Park', 'Baner'],
+    restaurants: {
+      Mediterranean: { name: 'Olive Courtyard', areaIndex: 0 },
+      Indian: { name: 'Saanjh Pune Kitchen', areaIndex: 1 },
+      Asian: { name: 'Mori Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Pune', areaIndex: 1 },
+    },
+  },
+  Ahmedabad: {
+    areas: ['SG Highway', 'Prahlad Nagar'],
+    restaurants: {
+      Mediterranean: { name: 'Olive Pol', areaIndex: 0 },
+      Indian: { name: 'Saanjh Ahmedabad', areaIndex: 1 },
+      Asian: { name: 'Kite Table', areaIndex: 0 },
+      Italian: { name: 'Little Basil Ahmedabad', areaIndex: 1 },
+    },
+  },
+} as const satisfies Record<string, Chapter>
+export type City = keyof typeof CITY_CHAPTERS
+export type Area = (typeof CITY_CHAPTERS)[City]['areas'][number]
+export const CITIES = Object.keys(CITY_CHAPTERS) as City[]
+export const AREAS_BY_CITY = Object.fromEntries(
+  CITIES.map((city) => [city, CITY_CHAPTERS[city].areas]),
+) as unknown as Record<City, readonly Area[]>
+export const AREAS = Object.values(AREAS_BY_CITY).flat()
 export type Profile = { name: string; interests: Interest[]; style: Style; gender: Gender }
 export type Preferences = {
+  city: City
   areas: Area[]
   windows: Window[]
   cuisines: Cuisine[]
@@ -46,6 +139,7 @@ export type Guest = {
 }
 export type Restaurant = {
   name: string
+  city: City
   area: Area
   cuisine: Cuisine
   mealPrice: number
@@ -69,7 +163,7 @@ export type Reflection = {
   regulars: string[]
 }
 export type AppState = {
-  version: 1
+  version: 2
   profile: Profile | null
   preferences: Preferences
   queuedAt: string | null
@@ -82,9 +176,10 @@ export const BOOKING_FEE = 199
 
 export function createInitialState(): AppState {
   return {
-    version: 1,
+    version: 2,
     profile: null,
     preferences: {
+      city: 'Gurugram',
       areas: ['Cyber Hub'],
       windows: ['Friday dinner', 'Saturday dinner'],
       cuisines: ['Mediterranean', 'Indian'],
@@ -109,7 +204,10 @@ export function profileFromAnswers(
 }
 
 export function validatePreferences(p: Preferences, profile: Profile): string | null {
+  if (!CITIES.includes(p.city)) return 'Choose a city chapter.'
   if (!p.areas.length) return 'Choose at least one area.'
+  if (p.areas.some((area) => !AREAS_BY_CITY[p.city].includes(area)))
+    return 'Choose areas inside your selected city chapter.'
   if (!p.windows.length) return 'Choose at least one free time.'
   if (!p.cuisines.length) return 'Choose at least one cuisine.'
   if (p.budget < 500 || p.budget > 2000) return 'Choose a meal budget between ₹500 and ₹2,000.'
@@ -153,40 +251,39 @@ export const SAMPLE_GUESTS: Guest[] = [
     color: 'sand',
   },
 ]
-const RESTAURANTS: Restaurant[] = [
-  {
-    name: 'The Olive Room',
-    area: 'Cyber Hub',
-    cuisine: 'Mediterranean',
-    mealPrice: 750,
-    diets: ['Vegetarian', 'Vegan', 'No preference'],
+const CUISINE_DETAILS: Record<Cuisine, { price: number; diets: Diet[]; description: string }> = {
+  Mediterranean: {
+    price: 750,
+    diets: [...DIETS],
     description: 'Warm light, sharing plates, and a corner made for long conversations.',
   },
-  {
-    name: 'Saanjh Social Kitchen',
-    area: 'Golf Course Road',
-    cuisine: 'Indian',
-    mealPrice: 650,
-    diets: ['Vegetarian', 'Vegan', 'No preference'],
+  Indian: {
+    price: 650,
+    diets: [...DIETS],
     description: 'Familiar flavours, a generous table, and a slower kind of evening.',
   },
-  {
-    name: 'Little Basil',
-    area: 'Cyber Hub',
-    cuisine: 'Italian',
-    mealPrice: 850,
+  Asian: {
+    price: 800,
+    diets: [...DIETS],
+    description: 'Small plates and big flavours, with plenty to pass around.',
+  },
+  Italian: {
+    price: 850,
     diets: ['Vegetarian', 'No preference'],
     description: 'Wood-fired comfort and the kind of pasta worth talking about.',
   },
-  {
-    name: 'Miso & More',
-    area: 'Golf Course Road',
-    cuisine: 'Asian',
-    mealPrice: 800,
-    diets: ['Vegetarian', 'Vegan', 'No preference'],
-    description: 'Small plates and big flavours, with plenty to pass around.',
-  },
-]
+}
+const RESTAURANTS: Restaurant[] = CITIES.flatMap((city) =>
+  CUISINES.map((cuisine) => ({
+    name: CITY_CHAPTERS[city].restaurants[cuisine].name,
+    city,
+    area: AREAS_BY_CITY[city][CITY_CHAPTERS[city].restaurants[cuisine].areaIndex],
+    cuisine,
+    mealPrice: CUISINE_DETAILS[cuisine].price,
+    diets: CUISINE_DETAILS[cuisine].diets,
+    description: CUISINE_DETAILS[cuisine].description,
+  })),
+)
 
 // Synthetic fixtures deliberately have explicit availability. Never broaden a user's constraints.
 const SAMPLE_WINDOWS: Window[] = ['Friday dinner', 'Saturday dinner', 'Sunday lunch']
@@ -229,6 +326,7 @@ export function buildInvitation(
   if (sharedInterests.length < 2 || guests.length < 2 || guests.length > 4) return null
   const restaurant = RESTAURANTS.find(
     (r) =>
+      preferences.city === r.city &&
       preferences.areas.includes(r.area) &&
       preferences.cuisines.includes(r.cuisine) &&
       r.mealPrice <= preferences.budget &&
@@ -293,7 +391,9 @@ function validProfile(v: unknown): v is Profile {
 function validPreferences(v: unknown): v is Preferences {
   return (
     record(v) &&
+    oneOf(v.city, CITIES) &&
     listOf(v.areas, AREAS) &&
+    v.areas.every((area) => AREAS_BY_CITY[v.city as City].includes(area)) &&
     listOf(v.windows, WINDOWS) &&
     listOf(v.cuisines, CUISINES) &&
     oneOf(v.diet, DIETS) &&
@@ -321,7 +421,9 @@ function validInvitation(v: unknown): v is Invitation {
   const r = v.restaurant
   return (
     text(r.name, 100) &&
+    oneOf(r.city, CITIES) &&
     oneOf(r.area, AREAS) &&
+    AREAS_BY_CITY[r.city as City].includes(r.area as Area) &&
     oneOf(r.cuisine, CUISINES) &&
     typeof r.mealPrice === 'number' &&
     r.mealPrice >= 0 &&
@@ -341,14 +443,29 @@ function validInvitation(v: unknown): v is Invitation {
   )
 }
 
+function migrateSavedState(value: unknown): unknown {
+  if (!record(value) || value.version !== 1 || !record(value.preferences)) return value
+  const invitation = value.invitation
+  const migratedInvitation =
+    record(invitation) && record(invitation.restaurant)
+      ? { ...invitation, restaurant: { ...invitation.restaurant, city: 'Gurugram' } }
+      : invitation
+  return {
+    ...value,
+    version: 2,
+    preferences: { ...value.preferences, city: 'Gurugram' },
+    invitation: migratedInvitation,
+  }
+}
+
 // localStorage is untrusted input, not authentication. Reject invalid shapes before rendering them.
 export function parseSavedState(raw: string | null): AppState | null {
   if (!raw) return null
   try {
-    const v: unknown = JSON.parse(raw)
+    const v: unknown = migrateSavedState(JSON.parse(raw))
     if (
       !record(v) ||
-      v.version !== 1 ||
+      v.version !== 2 ||
       !(v.profile === null || validProfile(v.profile)) ||
       !validPreferences(v.preferences) ||
       !(v.queuedAt === null || date(v.queuedAt)) ||
@@ -358,6 +475,15 @@ export function parseSavedState(raw: string | null): AppState | null {
     )
       return null
     if (v.profile === null && (v.queuedAt !== null || v.invitation !== null)) return null
+    if (v.invitation !== null) {
+      const preferences = v.preferences as Preferences
+      const invitation = v.invitation as Invitation
+      if (
+        invitation.restaurant.city !== preferences.city ||
+        !preferences.areas.includes(invitation.restaurant.area)
+      )
+        return null
+    }
     if (
       !v.reflections.every(
         (r) =>

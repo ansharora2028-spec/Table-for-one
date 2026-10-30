@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
+  AREAS_BY_CITY,
+  CITIES,
   buildInvitation,
   createInitialState,
   parseSavedState,
@@ -9,6 +11,7 @@ import {
 } from './domain'
 
 const preferences: Preferences = {
+  city: 'Gurugram',
   areas: ['Cyber Hub'],
   windows: ['Friday dinner', 'Saturday dinner'],
   cuisines: ['Mediterranean'],
@@ -35,6 +38,7 @@ describe('table invitations', () => {
       48 * 60 * 60 * 1000,
     )
     expect(invitation!.restaurant.area).toBe('Cyber Hub')
+    expect(invitation!.restaurant.city).toBe('Gurugram')
     expect(invitation!.restaurant.cuisine).toBe('Mediterranean')
     expect(invitation!.restaurant.mealPrice).toBeLessThanOrEqual(preferences.budget)
     expect(invitation!.restaurant.diets).toContain('Vegetarian')
@@ -51,6 +55,25 @@ describe('table invitations', () => {
     expect(buildInvitation(profile, { ...preferences, budget: 500 }, now)).toBeNull()
     const vegan = buildInvitation(profile, { ...preferences, diet: 'Vegan' }, now)
     expect(vegan?.restaurant.diets).toContain('Vegan')
+  })
+  it('offers a sample table inside every available city chapter', () => {
+    for (const city of CITIES) {
+      const invitation = buildInvitation(
+        profile,
+        { ...preferences, city, areas: [AREAS_BY_CITY[city][0]] },
+        now,
+      )
+      expect(invitation?.restaurant.city).toBe(city)
+      expect(AREAS_BY_CITY[city]).toContain(invitation?.restaurant.area)
+    }
+  })
+  it('never matches an area from another city chapter', () => {
+    expect(
+      validatePreferences({ ...preferences, city: 'Bengaluru', areas: ['Cyber Hub'] }, profile),
+    ).toMatch(/city/i)
+    expect(
+      buildInvitation(profile, { ...preferences, city: 'Bengaluru', areas: ['Cyber Hub'] }, now),
+    ).toBeNull()
   })
   it('only offers women-only tables to a woman and includes only women guests', () => {
     const women = { ...preferences, tableType: 'Women-only table' as const }
@@ -89,6 +112,17 @@ describe('local data validation', () => {
     expect(parseSavedState(JSON.stringify({ version: 9 }))).toBeNull()
     expect(parseSavedState(JSON.stringify({ ...initial, profile: { name: 12 } }))).toBeNull()
     expect(parseSavedState(JSON.stringify({ ...initial, invitation: { date: 'bad' } }))).toBeNull()
+  })
+  it('migrates Gurugram-only version 1 data without losing progress', () => {
+    const current = createInitialState()
+    const legacy = {
+      ...current,
+      version: 1,
+      preferences: Object.fromEntries(
+        Object.entries(current.preferences).filter(([key]) => key !== 'city'),
+      ),
+    }
+    expect(parseSavedState(JSON.stringify(legacy))).toEqual(current)
   })
   it('does not derive sensitive matching attributes from conversation text', () => {
     const result = profileFromAnswers(

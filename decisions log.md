@@ -136,3 +136,11 @@ Other unresolved details include the actual matching-quality threshold, identity
 **External verification:** `https://ansharora2028-spec.github.io/Table-for-one/` returned HTTP 200, and its generated JavaScript and CSS assets also returned HTTP 200. The deployment workflow passed all nine unit tests, the formatting check, production build, artifact upload, and Pages deployment. GitHub Release `v0.1.0` is published at `https://github.com/ansharora2028-spec/Table-for-one/releases/tag/v0.1.0`.
 
 **Boundary:** this is a public static demo release, not a production launch of real dining operations. Data remains in the visitor's browser, and the unconnected-service limitations recorded in D030 and earlier decisions remain active.
+
+### D032 — Expand the demo to nine Indian city chapters
+
+**Source:** explicit owner request on 30 October 2026 to add Bengaluru, Delhi, and at least all tier-1 Indian cities instead of limiting the demo to Gurugram. **Status:** implemented on `codex/india-city-chapters`; publication must be verified separately after merge. This supersedes D002 only for the demo's available geography. The original Gurugram-first pilot remains historical product-brief context, not a claim about the expanded demo.
+
+**Decision:** offer Delhi, Gurugram, Mumbai, Bengaluru, Hyderabad, Chennai, Kolkata, Pune, and Ahmedabad as selectable chapters, each with two neighbourhood choices. City is a hard matching constraint alongside area, time, cuisine, diet, and budget. Every chapter has fictional sample restaurants for each supported cuisine, and version-1 Gurugram browser data migrates to the new version-2 shape without losing progress.
+
+**Boundary:** adding chapter options does not establish live operations, restaurant coverage, participants, verification, bookings, support, or safety response in any city. Restaurant names and matches remain fictional demo fixtures.
