@@ -72,7 +72,7 @@ All entries below were recorded on **30 October 2026**. “Implemented” means 
 - Source, tests, docs, and the owner-controlled guidelines exist. The guest-facing local flow is complete within its declared demo boundaries.
 - There is no backend, real account system, live AI service, phone/ID verification, restaurant integration, payment processing, notification delivery, or staffed safety workflow.
 - The current sample pool and venues are fictional. No pilot attendance, repeat-booking, compatibility-quality, or safety outcome has been measured.
-- The source was initially uncommitted in the cloud's unborn `work` branch. D028 records the owner's subsequent authorization to commit and push it. Inspect the current Git history and remote state for the delivery result; initial local-only statements in older entries are historical.
+- The source is now committed and pushed to `https://github.com/ansharora2028-spec/Table-for-one` on `main`. D028 records owner authorization and D029 records the verified transfer. Initial local-only statements in older entries are historical. The owner's actual Desktop clone and startup have not been observed.
 - Cloud setup/start instructions were saved in an environment draft. That is separate from publishing the environment and from configuring a desktop machine. No website deployment occurred.
 - The desktop transfer package includes the PDF, this log, source, guidelines, handoff, and the standalone snapshot. Cloud processes, absolute paths, temporary review artifacts, dependency installations, and plugins do not automatically transfer.
 
@@ -110,3 +110,13 @@ Other unresolved details include the actual matching-quality threshold, identity
 - Update the current-state/direction summaries when new evidence warrants it, while retaining the dated entries that explain the change. Record open decisions and blockers without treating them as approval to act.
 - Never store secrets, identity documents, credentials, or private participant records in this log. Do not treat old test results as current after new code changes.
 - This file is editable project memory. `AGENTS.md` remains separately owner-controlled; changing this log does not authorize changing those guidelines.
+
+## Delivery update — 30 October 2026
+
+### D029 — Source is available on GitHub for Desktop continuation
+
+**Source:** executed owner-authorized transfer, verified by a read-only remote check. The complete app, original PDF, handoff, decision log, and agent guidelines were committed as `e9b6b98e967316c586a23f5f560336ac37b59b13` (`feat: build Table for One dining demo and desktop handoff`) and pushed to `main` in `ansharora2028-spec/Table-for-one`. GitHub's branch SHA matched the local commit. This supersedes D027's pending-delivery state and the older warnings that cloning GitHub will not retrieve the implementation.
+
+**Verification at transfer:** `npm test` passed all nine tests again; `npm run build` passed again. The earlier eighteen desktop/mobile browser tests remain the latest full browser-suite result; they were not rerun for these documentation-only transfer updates. The owner-controlled `AGENTS.md` is included without content changes.
+
+**How continuation now works:** clone the repository locally, open that folder in Codex Desktop, read `AGENTS.md`, this log, `HANDOFF.md`, and `README.md`, then run the app on that computer. GitHub authentication may be required on the owner's machine. No ZIP is needed. Compound Engineering must be available in the receiving tool separately; cloud installation and chat history do not automatically transfer. Actual Desktop setup is not yet verified. No app hosting deployment, real booking, payment, or participant communication occurred.

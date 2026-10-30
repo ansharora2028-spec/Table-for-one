@@ -14,9 +14,9 @@ branch: 'work'
 
 ## GitHub transfer update — 30 October 2026
 
-The owner could not download the cloud ZIP and explicitly authorized committing and pushing the full project to `ansharora2028-spec/Table-for-one`. The prepared destination is the initially empty repository's `main` branch. Check the latest Git history and remote state for the actual transfer result; the older “Transfer and Git state” section below captures the pre-authorization snapshot and must not be mistaken for current state after the push.
+The owner could not download the cloud ZIP and explicitly authorized committing and pushing the full project to `ansharora2028-spec/Table-for-one`. The transfer succeeded: project commit `e9b6b98e967316c586a23f5f560336ac37b59b13` was pushed to `main`, and a read-only GitHub check confirmed the same SHA. The older “Transfer and Git state” section below captures the pre-authorization snapshot and is historical. D029 in `decisions log.md` records the verified result. Desktop cloning/startup itself has not been observed.
 
-The repository now contains the original brief at `docs/product-brief.pdf`, the ongoing root `decisions log.md`, owner-controlled `AGENTS.md`, and the `CLAUDE.md` context pointer. Read the decision log alongside this handoff. Desktop can use a normal local clone once the push is verified. Downloadable archives and the standalone HTML were cloud-only delivery attempts and are not required to build from source.
+The repository now contains the original brief at `docs/product-brief.pdf`, the ongoing root `decisions log.md`, owner-controlled `AGENTS.md`, and the `CLAUDE.md` context pointer. Read the decision log alongside this handoff. Desktop can use a normal local clone of `https://github.com/ansharora2028-spec/Table-for-one.git` and open its `Table-for-one` folder. Downloadable archives and the standalone HTML were cloud-only delivery attempts and are not required to build from source.
 
 ## Intent and authority
 

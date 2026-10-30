@@ -1,5 +1,7 @@
 # Verification — 30 October 2026
 
+Delivery update: the owner subsequently authorized GitHub transfer. Source commit `e9b6b98e967316c586a23f5f560336ac37b59b13` was pushed to `ansharora2028-spec/Table-for-one` on `main` and verified against the remote SHA. The original environment/delivery snapshot below predates that push; see D029 in the root decision log for current transfer status. No app deployment occurred.
+
 The first browser-local release was implemented with Compound Engineering's work, simplification, and code-review workflows. Source requirements and deliberate integration boundaries are in [implementation notes](implementation.md) and the [README](../README.md).
 
 ## Observed results
