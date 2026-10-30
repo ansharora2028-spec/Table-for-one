@@ -126,6 +126,24 @@ test('city chapters keep neighbourhoods and sample matches local', async ({ page
   await accessible(page)
 })
 
+test('chapter switcher opens from the sidebar and changes cities', async ({ page }) => {
+  await page.goto('/')
+  const mobileMenu = page.getByRole('button', { name: 'Open menu', exact: true })
+  if (await mobileMenu.isVisible()) await mobileMenu.click()
+  await page
+    .locator('#sidebar')
+    .getByRole('button', { name: 'GURUGRAM CHAPTER', exact: true })
+    .click()
+  await expect(page.getByRole('menu', { name: 'Choose a city chapter' })).toBeVisible()
+  await page.getByRole('menuitem', { name: 'Bengaluru', exact: true }).click()
+  await expect(
+    page.locator('#sidebar').getByRole('button', { name: 'BENGALURU CHAPTER', exact: true }),
+  ).toBeVisible()
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('table-for-one:v1')!))
+  expect(stored.preferences.city).toBe('Bengaluru')
+  expect(stored.preferences.areas).toEqual(['Indiranagar'])
+})
+
 test('invalid preferences and poor-fit samples never create an invitation', async ({ page }) => {
   await page.goto('/')
   await onboarding(page, ['Outdoors', 'Tech & ideas'], false)
