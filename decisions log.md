@@ -120,3 +120,11 @@ Other unresolved details include the actual matching-quality threshold, identity
 **Verification at transfer:** `npm test` passed all nine tests again; `npm run build` passed again. The earlier eighteen desktop/mobile browser tests remain the latest full browser-suite result; they were not rerun for these documentation-only transfer updates. The owner-controlled `AGENTS.md` is included without content changes.
 
 **How continuation now works:** clone the repository locally, open that folder in Codex Desktop, read `AGENTS.md`, this log, `HANDOFF.md`, and `README.md`, then run the app on that computer. GitHub authentication may be required on the owner's machine. No ZIP is needed. Compound Engineering must be available in the receiving tool separately; cloud installation and chat history do not automatically transfer. Actual Desktop setup is not yet verified. No app hosting deployment, real booking, payment, or participant communication occurred.
+
+### D030 — Publish the local demo through GitHub Pages
+
+**Source:** explicit owner request on 30 October 2026 to push, merge, release, and make the existing demo publicly viewable. **Status:** implementation in progress on `codex/github-pages-release`; external deployment and public verification must be recorded separately after they succeed.
+
+**Decision:** deploy the static Vite build from `main` through GitHub Actions and GitHub Pages at `https://ansharora2028-spec.github.io/Table-for-one/`. GitHub-hosted builds use `/Table-for-one/` as the Vite base path while local development continues to use `/`. The workflow runs unit tests, formatting, and the production build before deployment. A GitHub Release named `v0.1.0` will mark the first public demo after the deployed site is verified.
+
+**Boundary:** publication does not change the demo's product claims. The public site remains fictional and browser-local, with no real booking, payment, identity verification, notifications, participant communication, or staffed safety response.

@@ -4,6 +4,8 @@
 
 This release demonstrates the complete guest journey. It is **not a live booking service**. All sample diners and venues are fictional, onboarding is guided rather than LLM-powered, and no payment, identity verification, notification, or restaurant reservation occurs. No credentials are needed.
 
+The public demo is available at **[ansharora2028-spec.github.io/Table-for-one](https://ansharora2028-spec.github.io/Table-for-one/)**. It is deployed from `main` by GitHub Actions after the repository checks pass.
+
 For a new Codex or Claude Code conversation, read `AGENTS.md` and the [decisions log](<decisions log.md>) first. The log records the product idea, decision history, implementation choices, current limits, and unresolved direction. Claude Code also has a root `CLAUDE.md` context pointer; Codex sessions should explicitly load the log because the owner-controlled `AGENTS.md` has not been changed to add that pointer.
 
 ## Run locally
@@ -25,7 +27,9 @@ npm run build
 npm run preview -- --port 4173
 ```
 
-`dist/` is the static deployment output. Navigation uses URL fragments, so no server-side route rewriting is required. Hosting/deployment is not configured by this release. The UI uses system fonts and bundled SVG artwork and icons; no external image, font, or runtime API requests are required.
+`dist/` is the static deployment output. Navigation uses URL fragments, so no server-side route rewriting is required. The UI uses system fonts and bundled SVG artwork and icons; no external image, font, or runtime API requests are required.
+
+GitHub Pages deployment is configured in `.github/workflows/deploy-pages.yml`. GitHub Actions builds with the `/Table-for-one/` base path; local development continues to use `/`. In the repository's **Settings → Pages**, the publishing source must be set to **GitHub Actions**.
 
 ## Try the complete journey
 
