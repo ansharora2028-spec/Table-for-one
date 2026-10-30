@@ -176,9 +176,15 @@ button {
 .brand-period {
   color: var(--coral);
 }
+.chapter-switcher {
+  position: relative;
+  margin: 32px 9px 35px;
+}
 .chapter {
+  width: 100%;
   font-size: 9px;
   font-weight: 600;
+  font-family: inherit;
   letter-spacing: 1.5px;
   border: 1px solid #ddded2;
   border-radius: 5px;
@@ -186,9 +192,54 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 32px 9px 35px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
 }
 .chapter svg {
+  margin-left: auto;
+}
+.chapter:hover,
+.chapter[aria-expanded='true'] {
+  background: #edeee5;
+  border-color: #cdd1c4;
+}
+.chapter-chevron {
+  transition: transform 0.18s ease;
+}
+.chapter-chevron.open {
+  transform: rotate(180deg);
+}
+.chapter-menu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 7px);
+  left: 0;
+  right: 0;
+  padding: 6px;
+  border: 1px solid #d7d9cc;
+  border-radius: 7px;
+  background: #fffefa;
+  box-shadow: 0 14px 34px #26352222;
+}
+.chapter-menu button {
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 8px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-radius: 5px;
+  color: #454b3e;
+  font-size: 10px;
+  text-align: left;
+}
+.chapter-menu button:hover,
+.chapter-menu button:focus-visible,
+.chapter-menu button.active {
+  background: #edf0e6;
+}
+.chapter-menu button svg {
   margin-left: auto;
 }
 .location-dot {
@@ -2029,11 +2080,13 @@ input[type='radio'] {
     width: 33px;
     height: 33px;
   }
+  .chapter-switcher {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
   .chapter {
     font-size: 8px;
     letter-spacing: 1px;
-    margin-left: 4px;
-    margin-right: 4px;
     padding: 9px;
   }
   .nav-item {
@@ -2186,7 +2239,7 @@ input[type='radio'] {
     visibility: visible;
     transform: translateX(0);
   }
-  .sidebar .chapter {
+  .sidebar .chapter-switcher {
     margin-top: 0;
     margin-bottom: 25px;
   }

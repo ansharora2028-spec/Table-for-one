@@ -30,7 +30,9 @@ import {
   X,
 } from 'lucide-react'
 import {
+  AREAS_BY_CITY,
   BOOKING_FEE,
+  CITIES,
   SAMPLE_GUESTS,
   STORAGE_KEY,
   buildInvitation,
@@ -39,6 +41,7 @@ import {
   parseSavedState,
   validatePreferences,
   type AppState,
+  type City,
   type Preferences,
   type Profile,
   type Reflection,
@@ -119,6 +122,7 @@ export default function App() {
   const [page, setPage] = useState<Page>(currentPage)
   const [dialog, setDialog] = useState<Dialog>(null)
   const [mobileMenu, setMobileMenu] = useState(false)
+  const [chapterMenu, setChapterMenu] = useState(false)
   const [toast, setToast] = useState('')
   const [matching, setMatching] = useState(false)
   const [noMatch, setNoMatch] = useState(false)
@@ -223,8 +227,25 @@ export default function App() {
     setPage(next)
     window.location.hash = next
     setMobileMenu(false)
+    setChapterMenu(false)
     window.scrollTo({ top: 0, behavior: 'instant' })
     requestAnimationFrame(() => mainRef.current?.focus())
+  }
+  function selectChapter(city: City) {
+    cancelMatching()
+    setState((current) => ({
+      ...current,
+      preferences: {
+        ...current.preferences,
+        city,
+        areas: [AREAS_BY_CITY[city][0]],
+      },
+      invitation: null,
+      queuedAt: null,
+    }))
+    setNoMatch(false)
+    setChapterMenu(false)
+    announce(`${city} chapter selected. Choose more neighbourhoods in Dining preferences.`)
   }
   function adoptStoredValue(raw: string | null) {
     if (raw === storageSnapshot.current) return
@@ -378,10 +399,44 @@ export default function App() {
       )}
       <aside id="sidebar" className={`sidebar ${mobileMenu ? 'open' : ''}`}>
         <Brand onClick={() => navigate('home')} />
-        <div className="chapter">
-          <span className="location-dot" />
-          {state.preferences.city.toUpperCase()} CHAPTER
-          <ChevronDown size={13} aria-hidden="true" />
+        <div className="chapter-switcher">
+          <button
+            type="button"
+            className="chapter"
+            aria-expanded={chapterMenu}
+            aria-controls="chapter-menu"
+            onClick={() => setChapterMenu((open) => !open)}
+          >
+            <span className="location-dot" />
+            {state.preferences.city.toUpperCase()} CHAPTER
+            <ChevronDown
+              className={chapterMenu ? 'chapter-chevron open' : 'chapter-chevron'}
+              size={13}
+              aria-hidden="true"
+            />
+          </button>
+          {chapterMenu && (
+            <div
+              id="chapter-menu"
+              className="chapter-menu"
+              role="menu"
+              aria-label="Choose a city chapter"
+            >
+              {CITIES.map((city) => (
+                <button
+                  key={city}
+                  type="button"
+                  role="menuitem"
+                  className={city === state.preferences.city ? 'active' : undefined}
+                  onClick={() => selectChapter(city)}
+                >
+                  <span className="location-dot" />
+                  {city}
+                  {city === state.preferences.city && <Check size={13} aria-hidden="true" />}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <span className="nav-heading">A PLACE FOR YOU</span>
         <nav aria-label="Main navigation">
