@@ -73,7 +73,7 @@ All entries below were recorded on **30 October 2026**. “Implemented” means 
 - There is no backend, real account system, live AI service, phone/ID verification, restaurant integration, payment processing, notification delivery, or staffed safety workflow.
 - The current sample pool and venues are fictional. No pilot attendance, repeat-booking, compatibility-quality, or safety outcome has been measured.
 - The source is now committed and pushed to `https://github.com/ansharora2028-spec/Table-for-one` on `main`. D028 records owner authorization and D029 records the verified transfer. Initial local-only statements in older entries are historical. The owner's actual Desktop clone and startup have not been observed.
-- Cloud setup/start instructions were saved in an environment draft. That is separate from publishing the environment and from configuring a desktop machine. No website deployment occurred.
+- Cloud setup/start instructions were saved in an environment draft. The public demo is now deployed through GitHub Pages at `https://ansharora2028-spec.github.io/Table-for-one/`; D031 records the verified release. This remains separate from configuring another desktop machine.
 - The desktop transfer package includes the PDF, this log, source, guidelines, handoff, and the standalone snapshot. Cloud processes, absolute paths, temporary review artifacts, dependency installations, and plugins do not automatically transfer.
 
 ## Direction and open decisions
@@ -128,3 +128,11 @@ Other unresolved details include the actual matching-quality threshold, identity
 **Decision:** deploy the static Vite build from `main` through GitHub Actions and GitHub Pages at `https://ansharora2028-spec.github.io/Table-for-one/`. GitHub-hosted builds use `/Table-for-one/` as the Vite base path while local development continues to use `/`. The workflow runs unit tests, formatting, and the production build before deployment. A GitHub Release named `v0.1.0` will mark the first public demo after the deployed site is verified.
 
 **Boundary:** publication does not change the demo's product claims. The public site remains fictional and browser-local, with no real booking, payment, identity verification, notifications, participant communication, or staffed safety response.
+
+### D031 — Public demo and v0.1.0 release are verified
+
+**Source:** executed owner-authorized publication on 30 October 2026. This supersedes D030's in-progress status. Pull request #1 was squash-merged to `main` as `0b458084e3ff8265d227eedde70fa91d83ba4454`. GitHub Actions run `41080362002` completed successfully after GitHub Pages was enabled for Actions deployment.
+
+**External verification:** `https://ansharora2028-spec.github.io/Table-for-one/` returned HTTP 200, and its generated JavaScript and CSS assets also returned HTTP 200. The deployment workflow passed all nine unit tests, the formatting check, production build, artifact upload, and Pages deployment. GitHub Release `v0.1.0` is published at `https://github.com/ansharora2028-spec/Table-for-one/releases/tag/v0.1.0`.
+
+**Boundary:** this is a public static demo release, not a production launch of real dining operations. Data remains in the visitor's browser, and the unconnected-service limitations recorded in D030 and earlier decisions remain active.
