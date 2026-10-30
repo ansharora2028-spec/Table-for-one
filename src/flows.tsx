@@ -12,7 +12,8 @@ import {
   Star,
 } from 'lucide-react'
 import {
-  AREAS,
+  AREAS_BY_CITY,
+  CITIES,
   CUISINES,
   DIETS,
   GENDERS,
@@ -22,6 +23,7 @@ import {
   profileFromAnswers,
   validatePreferences,
   type Gender,
+  type City,
   type Interest,
   type Invitation,
   type Preferences,
@@ -279,6 +281,10 @@ export function PreferencesForm({
       }
     })
   }
+  function selectCity(city: City) {
+    setP((previous) => (previous.city === city ? previous : { ...previous, city, areas: [] }))
+    setError('')
+  }
   function submit(e: FormEvent) {
     e.preventDefault()
     const error = validatePreferences(p, profile)
@@ -299,11 +305,21 @@ export function PreferencesForm({
           </div>
         </div>
         <fieldset>
-          <legend className="sr-only">Preferred areas</legend>
+          <legend className="field-label">Choose your city chapter</legend>
           <div className="chips">
-            {AREAS.map((a) => (
-              <Chip key={a} selected={p.areas.includes(a)} onClick={() => toggle('areas', a)}>
+            {CITIES.map((city) => (
+              <Chip key={city} selected={p.city === city} onClick={() => selectCity(city)}>
                 <MapPin size={15} />
+                {city}
+              </Chip>
+            ))}
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend className="field-label">Neighbourhoods in {p.city}</legend>
+          <div className="chips">
+            {AREAS_BY_CITY[p.city].map((a) => (
+              <Chip key={a} selected={p.areas.includes(a)} onClick={() => toggle('areas', a)}>
                 {a}
               </Chip>
             ))}

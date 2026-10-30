@@ -1,6 +1,6 @@
 # Table for One
 
-**Good food. Better company.** A responsive, local-first web app based on the _Table for One PM101 v3_ brief: small, compatible dining tables in Gurugram.
+**Good food. Better company.** A responsive, local-first web app based on the _Table for One PM101 v3_ brief: small, compatible dining tables across nine major Indian city chapters.
 
 This release demonstrates the complete guest journey. It is **not a live booking service**. All sample diners and venues are fictional, onboarding is guided rather than LLM-powered, and no payment, identity verification, notification, or restaurant reservation occurs. No credentials are needed.
 

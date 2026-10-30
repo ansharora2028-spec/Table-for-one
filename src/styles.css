@@ -1796,7 +1796,6 @@ input[type='radio'] {
 }
 .toast:not(:empty) {
   padding: 12px 16px;
-  animation: fadeIn 0.3s ease;
 }
 .toast .icon-button {
   color: #e7efdf;

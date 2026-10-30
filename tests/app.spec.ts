@@ -107,6 +107,25 @@ test('a complete local journey: introduce, match, reserve, reflect, refresh and 
   expect(errors).toEqual([])
 })
 
+test('city chapters keep neighbourhoods and sample matches local', async ({ page }) => {
+  await page.goto('/')
+  await onboarding(page)
+  await page.getByRole('button', { name: 'Bengaluru', exact: true }).click()
+  await expect(page.getByText('Neighbourhoods in Bengaluru')).toBeVisible()
+  await page.getByRole('button', { name: 'Indiranagar', exact: true }).click()
+  await page.getByRole('button', { name: 'Save my preferences' }).click()
+  await expect(page.locator('#sidebar')).toContainText('BENGALURU CHAPTER')
+  await page.getByRole('button', { name: 'Explore a sample match' }).click()
+  await expect(page.getByText('Indiranagar, Bengaluru', { exact: true })).toBeVisible()
+  await page.reload()
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('table-for-one:v1')!))
+  expect(stored.version).toBe(2)
+  expect(stored.preferences.city).toBe('Bengaluru')
+  expect(stored.preferences.areas).toEqual(['Indiranagar'])
+  await noOverflow(page)
+  await accessible(page)
+})
+
 test('invalid preferences and poor-fit samples never create an invitation', async ({ page }) => {
   await page.goto('/')
   await onboarding(page, ['Outdoors', 'Tech & ideas'], false)
